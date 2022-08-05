@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}TEST BLOCK{% endblock %}
+
+{% block content %}
+    <div class="container text-container">
+        <h1>Hello, Pavel</h1>
+        <div class="row">
+            {% for note in notes %}
+                {% if forloop.counter0|divisibleby:3 %}
+                    </div>
+                    <div class="row mb-4">
+                {% endif %}
+                {% include "note.html" %}
+            {% endfor %}
+            </div>
+        {% include "add_note.html" %}
+    </div>
+
+{% endblock %}
