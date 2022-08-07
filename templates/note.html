@@ -4,13 +4,22 @@
             <h5 class="card-title text-center">{{ note.title }}</h5>
             <p class="card-text bg-secondary p-2 rounded edit-note-text">{{ note.text }}</p>
             <div class="row">
-                <form method="POST" class="note-form col text-start" action="/edit/">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-secondary edit-button">Edit</button>
+                <form method="GET" class="note-form col text-start" action="/edit">
+                    <button type="submit"
+                            class="btn btn-secondary edit-button"
+                            name="id"
+                            value="{{ note.id }}">
+                        Edit
+                    </button>
                 </form>
                 <form method="POST" class="note-form col text-end" action="/delete/">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-danger del-button" name="delete" value={{ note.id }}>Delete</button>
+                    <button type="submit"
+                            class="btn btn-danger del-button"
+                            name="delete"
+                            value={{ note.id }}>
+                        Delete
+                    </button>
                 </form>
             </div>
         </div>

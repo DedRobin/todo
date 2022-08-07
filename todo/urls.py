@@ -16,11 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from notes.views import index, delete_note
+from notes.views import index, delete_note, edit_note
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
-    path('delete/', delete_note, name='delete_note')
-
+    path('delete/', delete_note, name='delete_note'),
+    path('edit/', edit_note, name='edit_note')
 ]
