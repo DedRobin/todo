@@ -22,7 +22,9 @@ def index(request):
 
 def delete_note(request):
     if request.method == "POST":
-        # note = Note.objects.get().delete()
-        print(request.POST)
+        note_id = int(request.POST.get("delete"))
+        print(note_id)
+        note = Note.objects.get(id=note_id).delete()
+        print(note)
         return redirect("index")
-    pass
+

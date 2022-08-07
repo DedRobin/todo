@@ -5,10 +5,12 @@
             <p class="card-text bg-secondary p-2 rounded edit-note-text">{{ note.text }}</p>
             <div class="row">
                 <form method="POST" class="note-form col text-start" action="/edit/">
+                    {% csrf_token %}
                     <button type="submit" class="btn btn-secondary edit-button">Edit</button>
                 </form>
                 <form method="POST" class="note-form col text-end" action="/delete/">
-                    <button type="submit" class="btn btn-danger del-button">Delete</button>
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger del-button" name="delete" value={{ note.id }}>Delete</button>
                 </form>
             </div>
         </div>
