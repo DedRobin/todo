@@ -33,4 +33,4 @@ if __name__ == "__main__":
 
     print("All tests have passed")
 
-    # user.delete()
+    user.delete()
