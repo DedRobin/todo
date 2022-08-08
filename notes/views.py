@@ -5,7 +5,7 @@ from notes.models import Note
 
 
 def index(request):
-    notes = Note.objects.all()
+    notes = Note.objects.order_by("-created_at")
     if request.method == "POST":
         form = AddNoteForm(request.POST)
         if form.is_valid():

@@ -1,12 +1,13 @@
 <div class="container col-4">
-    <div class="card">
+    <div class="card border-info" style="border-width: 2px">
         <div class="card-body">
-            <h5 class="card-title text-center">{{ note.title }}</h5>
-            <p class="card-text bg-secondary p-2 rounded edit-note-text">{{ note.text }}</p>
+            <h5 class="card-title text-center bg-info rounded-pill p-3 edit-note-title ">{{ note.title }}</h5>
+            <p class="card-text p-2">{{ note.text }}</p>
+            <div class="card-footer bg-secondary mb-2 rounded-pill edit-datetime">Created: {{ note.created_at }}</div>
             <div class="row">
                 <form method="GET" class="note-form col text-start" action="/edit">
                     <button type="submit"
-                            class="btn btn-secondary edit-button"
+                            class="btn btn-primary edit-button"
                             name="id"
                             value="{{ note.id }}">
                         Edit
