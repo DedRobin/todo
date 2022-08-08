@@ -3,17 +3,20 @@
 {% block title %}Edit note{% endblock %}
 
 {% block content %}
-{% load crispy_forms_filters %}
+    {% load crispy_forms_filters %}
+    <div class="container">
+        <h2>Edit Note '{{ note.title }}'</h2>
 
-<h2>Edit Note '{{ note.title }}'</h2>
-
-<form method="POST" class="note-form">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <button type="submit" class="save btn btn-primary edit-button" style="background-color: blueviolet" name="id" value={{ note.id }}>Update</button>
-</form>
-
-{% block scripts %} {% endblock %}
+        <form method="POST" class="note-form">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="save btn btn-primary edit-button" style="background-color: blueviolet"
+                    name="id"
+                    value={{ note.id }}>Update
+            </button>
+        </form>
+    </div>
+    {% block scripts %} {% endblock %}
 {% endblock %}
 
 
