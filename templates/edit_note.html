@@ -2,7 +2,14 @@
 
 {% block title %}Edit note{% endblock %}
 
+{% block style %}
+    .navbar-form-hidden {
+    visibility: hidden
+    }
+{% endblock %}
+
 {% block content %}
+    {% include "navbar.html" %}
     {% load crispy_forms_filters %}
     <div class="container">
         <h2>Edit Note '{{ note.title }}'</h2>
