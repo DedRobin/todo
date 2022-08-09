@@ -6,7 +6,8 @@ from notes.models import Note
 
 
 def index(request):
-    username = request.user
+    first_name = request.user.first_name
+    last_name = request.user.last_name
     notes = Note.objects.order_by("-created_at")
 
     if request.method == "POST":
@@ -22,7 +23,8 @@ def index(request):
             param = request.GET.get("q")
             notes = notes.filter(Q(title__contains=param) | Q(text__contains=param))
         form = AddNoteForm()
-    return render(request, "index.html", {"notes": notes, "form": form, "username": username})
+    variables = {"notes": notes, "form": form, "first_name": first_name, "last_name": last_name}
+    return render(request, "index.html", variables)
 
 
 def delete_note(request):
