@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
+    <div class="container">
         <p class="navbar fw-bold p-2 rounded fs-2" style="background-color: gray">
             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
                  class="bi bi-journal-text" viewBox="0 0 16 16">
@@ -10,8 +10,10 @@
                     <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
                 </svg>
             </svg>
-            ToDo
+            ToDoApplication
         </p>
+
+        <div class="fs-2">Hello, {{ first_name }} {{ last_name }}!</div>
         <form method="GET" class="d-flex navbar-form-hidden" role="search" action="/search">
             <input class="form-control me-2" type="search" placeholder="Search by notes" aria-label="Search"
                    name="q">
