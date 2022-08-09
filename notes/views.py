@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
+from django.db.models import Q
 
 from notes.forms import AddNoteForm
 from notes.models import Note
 
 
 def index(request):
+    username = request.user
     notes = Note.objects.order_by("-created_at")
+
     if request.method == "POST":
         form = AddNoteForm(request.POST)
         if form.is_valid():
@@ -15,8 +18,11 @@ def index(request):
             )
             return redirect("index")
     else:
+        if request.GET.get("q"):
+            param = request.GET.get("q")
+            notes = notes.filter(Q(title__contains=param) | Q(text__contains=param))
         form = AddNoteForm()
-    return render(request, "index.html", {"notes": notes, "form": form})
+    return render(request, "index.html", {"notes": notes, "form": form, "username": username})
 
 
 def delete_note(request):

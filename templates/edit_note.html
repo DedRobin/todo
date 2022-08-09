@@ -17,7 +17,7 @@
         <form method="POST" class="note-form">
             {% csrf_token %}
             {{ form|crispy }}
-            <button type="submit" class="save btn btn-primary edit-button" style="background-color: blueviolet"
+            <button type="submit" class="save btn btn-primary edit-button"
                     name="id"
                     value={{ note.id }}>Update
             </button>

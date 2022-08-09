@@ -21,6 +21,7 @@ from notes.views import index, delete_note, edit_note
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
+    path('search/', index, name='search'),
     path('delete/', delete_note, name='delete_note'),
     path('edit/', edit_note, name='edit_note')
 ]
