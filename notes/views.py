@@ -39,16 +39,11 @@ def delete_note(request):
 def edit_note(request):
     if request.method == "POST":
         form = AddNoteForm(request.POST)
-
-        # WTF?!
-        print(form)
-
         note_id = int(request.POST.get("id"))
-        note_title = form.cleaned_data["title"]
-        note_text = form.cleaned_data["text"]
+
         if form.is_valid():
             note = Note.objects.filter(id=note_id)
-            note.update(title=note_title, text=note_text)
+            note.update(title=form.cleaned_data["title"], text=form.cleaned_data["text"])
         return redirect("index")
 
     else:
