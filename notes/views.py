@@ -13,7 +13,6 @@ def index(request):
     if request.method == "POST":
         form = AddNoteForm(request.POST)
         if form.is_valid():
-            print(form)
             Note.objects.create(
                 author=request.user, title=form.cleaned_data["title"], text=form.cleaned_data["text"]
             )
