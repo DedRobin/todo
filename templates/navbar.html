@@ -15,7 +15,9 @@
 
         <div class="d-flex text-center">
             <div class="fs-2 greetings">Hello, {{ first_name }} {{ last_name }}!</div>
-            <div class="bg-secondary ms-4 p-2 rounded-pill fs-5 fw-bold logout"><a class="nav-link" href="{% url 'logout' %}">Logout</a></div>
+            <div class="btn-link ms-4 p-2 rounded-pill fs-5 fw-bold logout"><a class="nav-link"
+                                                                               href="{% url 'logout' %}">Logout</a>
+            </div>
         </div>
 
         <form method="GET" class="d-flex navbar-form-hidden" role="search" action="/search">
