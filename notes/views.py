@@ -1,14 +1,40 @@
+import logging
+
 from django.shortcuts import render, redirect
 from django.db.models import Q
+from django.http import HttpResponse
+from django.contrib.auth import logout, login, authenticate
 
-from notes.forms import AddNoteForm
+from notes.forms import AddNoteForm, LoginForm
 from notes.models import Note
+
+logger = logging.getLogger(__name__)
 
 
 def index(request):
+    # If user ISN'T authenticated
+
+    if not request.user.is_authenticated:
+        if request.method == "POST":
+            form = LoginForm(request.POST)
+            if form.is_valid():
+                user = authenticate(request=request, **form.cleaned_data)
+                if user is None:
+                    error = "User is not found."
+                    return render(request, "login.html", {"form": form, "error": error})
+                login(request, user)
+                return redirect("index")
+        else:
+            form = LoginForm()
+            return render(request, "login.html", {"form": form})
+
+    # If user IS authenticated
+
     first_name = request.user.first_name
     last_name = request.user.last_name
     notes = Note.objects.order_by("-created_at")
+
+    # Add note
 
     if request.method == "POST":
         form = AddNoteForm(request.POST)
@@ -50,3 +76,8 @@ def edit_note(request):
         note = Note.objects.get(id=note_id)
         form = AddNoteForm({'title': note.title, 'text': note.text})
         return render(request, "edit_note.html", {"form": form, "note": note})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("index")
