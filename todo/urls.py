@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from notes.views import index, delete_note, edit_note, logout_view, add_note
+from notes.views import index, delete_note, edit_note, logout_view, add_note, register, login_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +24,8 @@ urlpatterns = [
     path('search/', index, name='search'),
     path('delete/', delete_note, name='delete_note'),
     path('edit/', edit_note, name='edit_note'),
+    path('register/', register, name='register'),
+    path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('add_note/', add_note, name='add_note'),
     path("api/", include(

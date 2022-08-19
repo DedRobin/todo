@@ -22,7 +22,7 @@ class TestViews:
         assert len(response.data) == 5
 
     def test_create_one_note(self):
-        data = {"title": "title", "text": "text"}
+        data = {"title": "test_title", "text": "test_text"}
         response = self.client.post("/api/notes/", data=data)
         assert response.status_code == 201
 

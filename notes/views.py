@@ -4,8 +4,9 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.http import HttpResponse
 from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth.models import User
 
-from notes.forms import AddNoteForm, LoginForm
+from notes.forms import AddNoteForm, LoginForm, RegisterForm
 from notes.models import Note
 
 logger = logging.getLogger(__name__)
@@ -15,31 +16,59 @@ def index(request):
     # If user ISN'T authenticated
 
     if not request.user.is_authenticated:
-        if request.method == "POST":
-            form = LoginForm(request.POST)
-            if form.is_valid():
-                user = authenticate(request=request, **form.cleaned_data)
-                if user is None:
-                    error = "User is not found."
-                    return render(request, "login.html", {"form": form, "error": error})
-                login(request, user)
-                return redirect("index")
-        else:
-            form = LoginForm()
-            return render(request, "login.html", {"form": form})
+        return redirect("login")
 
-    # If user IS authenticated
+    else:
+        # If user IS authenticated
 
-    first_name = request.user.first_name
-    last_name = request.user.last_name
-    notes = Note.objects.filter(author_id=request.user.id).order_by("-created_at")
+        first_name = request.user.first_name
+        last_name = request.user.last_name
+        notes = Note.objects.filter(author_id=request.user.id).order_by("-created_at")
 
-    if request.GET.get("q"):
-        param = request.GET.get("q")
-        notes = notes.filter(Q(title__contains=param) | Q(text__contains=param))
-    form = AddNoteForm()
-    variables = {"notes": notes, "form": form, "first_name": first_name, "last_name": last_name}
-    return render(request, "index.html", variables)
+        if request.GET.get("q"):
+            param = request.GET.get("q")
+            notes = notes.filter(Q(title__contains=param) | Q(text__contains=param))
+        form = AddNoteForm()
+        variables = {"notes": notes, "form": form, "first_name": first_name, "last_name": last_name}
+        return render(request, "index.html", variables)
+
+
+def login_view(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = authenticate(request=request, **form.cleaned_data)
+            if user is None:
+                error = "User is not found."
+                return render(request, "login.html", {"form": form, "error": error})
+            login(request, user)
+            return redirect("index")
+    else:
+        form = LoginForm()
+        return render(request, "login.html", {"form": form})
+
+
+def register(request):
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = User(
+                username=form.cleaned_data["username"],
+                email=form.cleaned_data["email"],
+                first_name=form.cleaned_data["first_name"],
+                last_name=form.cleaned_data["last_name"],
+            )
+            user.set_password(form.cleaned_data["password"])
+            user.save()
+            return redirect("index")
+    else:
+        form = RegisterForm()
+        return render(request, "register.html", {"form": form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("index")
 
 
 def add_note(request):
@@ -78,8 +107,3 @@ def edit_note(request):
         note = Note.objects.get(id=note_id)
         form = AddNoteForm({'title': note.title, 'text': note.text})
         return render(request, "edit_note.html", {"form": form, "note": note})
-
-
-def logout_view(request):
-    logout(request)
-    return redirect("index")
