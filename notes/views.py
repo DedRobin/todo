@@ -70,7 +70,6 @@ def register(request):
 def add_note(request):
     if not request.user.is_authenticated:
         return redirect("login")
-    # Add note
 
     if request.method == "POST":
         form = AddNoteForm(request.POST)
