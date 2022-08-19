@@ -2,7 +2,7 @@ import logging
 
 from django.shortcuts import render, redirect
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
 
@@ -102,12 +102,17 @@ def edit_note(request):
         note_id = int(request.POST.get("id"))
 
         if form.is_valid():
-            note = Note.objects.filter(id=note_id)
+            note = Note.objects.filter(id=note_id, author_id=request.user.id)
             note.update(title=form.cleaned_data["title"], text=form.cleaned_data["text"])
         return redirect("index")
 
     else:
         note_id = int(request.GET.get("id"))
-        note = Note.objects.get(id=note_id)
-        form = AddNoteForm({'title': note.title, 'text': note.text})
-        return render(request, "edit_note.html", {"form": form, "note": note})
+        is_note_existed = Note.objects.filter(id=note_id, author_id=request.user.id).exists()
+
+        if is_note_existed:
+            note = Note.objects.get(id=note_id)
+            form = AddNoteForm({'title': note.title, 'text': note.text})
+            return render(request, "edit_note.html", {"form": form, "note": note})
+        else:
+            return HttpResponseNotFound()
