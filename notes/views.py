@@ -39,13 +39,18 @@ def login_view(request):
         if form.is_valid():
             user = authenticate(request=request, **form.cleaned_data)
             if user is None:
-                error = "User is not found."
+                error = "User is not found!"
                 return render(request, "login.html", {"form": form, "error": error})
             login(request, user)
             return redirect("index")
     else:
         form = LoginForm()
         return render(request, "login.html", {"form": form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("index")
 
 
 def register(request):
@@ -64,11 +69,6 @@ def register(request):
     else:
         form = RegisterForm()
         return render(request, "register.html", {"form": form})
-
-
-def logout_view(request):
-    logout(request)
-    return redirect("index")
 
 
 def add_note(request):

@@ -9,7 +9,9 @@
 {% endblock %}
 
 {% block content %}
+
     {% include "navbar.html" %}
+
     {% load crispy_forms_filters %}
     <div class="container">
         <h2>Edit Note '{{ note.title }}'</h2>
