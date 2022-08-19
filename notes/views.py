@@ -13,14 +13,10 @@ logger = logging.getLogger(__name__)
 
 
 def index(request):
-    # If user ISN'T authenticated
-
     if not request.user.is_authenticated:
         return redirect("login")
 
     else:
-        # If user IS authenticated
-
         first_name = request.user.first_name
         last_name = request.user.last_name
         notes = Note.objects.filter(author_id=request.user.id).order_by("-created_at")
@@ -72,6 +68,8 @@ def register(request):
 
 
 def add_note(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
     # Add note
 
     if request.method == "POST":
@@ -84,6 +82,9 @@ def add_note(request):
 
 
 def delete_note(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+
     if request.method == "POST":
         note_id = int(request.POST.get("delete"))
         Note.objects.get(id=note_id).delete()
@@ -93,6 +94,9 @@ def delete_note(request):
 
 
 def edit_note(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+
     if request.method == "POST":
         form = AddNoteForm(request.POST)
         note_id = int(request.POST.get("id"))
