@@ -32,7 +32,7 @@ def index(request):
 
     first_name = request.user.first_name
     last_name = request.user.last_name
-    notes = Note.objects.order_by("-created_at")
+    notes = Note.objects.filter(author_id=request.user.id).order_by("-created_at")
 
     # Add note
 
