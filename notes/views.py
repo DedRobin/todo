@@ -34,6 +34,15 @@ def index(request):
     last_name = request.user.last_name
     notes = Note.objects.filter(author_id=request.user.id).order_by("-created_at")
 
+    if request.GET.get("q"):
+        param = request.GET.get("q")
+        notes = notes.filter(Q(title__contains=param) | Q(text__contains=param))
+    form = AddNoteForm()
+    variables = {"notes": notes, "form": form, "first_name": first_name, "last_name": last_name}
+    return render(request, "index.html", variables)
+
+
+def add_note(request):
     # Add note
 
     if request.method == "POST":
@@ -43,13 +52,6 @@ def index(request):
                 author=request.user, title=form.cleaned_data["title"], text=form.cleaned_data["text"]
             )
             return redirect("index")
-    else:
-        if request.GET.get("q"):
-            param = request.GET.get("q")
-            notes = notes.filter(Q(title__contains=param) | Q(text__contains=param))
-        form = AddNoteForm()
-    variables = {"notes": notes, "form": form, "first_name": first_name, "last_name": last_name}
-    return render(request, "index.html", variables)
 
 
 def delete_note(request):
