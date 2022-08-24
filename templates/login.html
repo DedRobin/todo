@@ -22,7 +22,7 @@
                 {{ form|crispy }}
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
-            <a type="button" href="http://127.0.0.1:8000/register" class="btn btn-danger">Register</a>
+            <a type="button" href="{% url "register" %}" class="btn btn-danger">Register</a>
         </form>
         {% if error %}
             <div class="alert alert-danger mt-3">{{ error }}</div>
