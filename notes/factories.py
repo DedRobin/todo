@@ -9,8 +9,8 @@ class NoteFactory(DjangoModelFactory):
     class Meta:
         model = Note
 
-    title = factory.Faker('some_title')
-    text = factory.Faker('some_text')
+    title = factory.Faker('word')
+    text = factory.Faker('text')
 
 
 class UserFactory(DjangoModelFactory):
